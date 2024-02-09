@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 @Entity
 @Table(name = "USUARIOS")
-@Scope("singleton")  //Este componente con alcance singleton
+@Scope("prototype")  //Este componente con alcance prototype
 public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_seq")

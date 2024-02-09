@@ -11,12 +11,13 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 // Indica que esta clase es una fuente de configuración de Spring.
 @Configuration
+
 // Habilita la configuración específica de Spring MVC.
 @EnableWebMvc
+
 // Escanea el paquete base "ivan" y sus subpaquetes en busca de componentes de Spring.
-@ComponentScan(
-        basePackages = {"ivan"}
-)
+@ComponentScan(basePackages = {"ivan"})
+
 // Implementa la interfaz WebMvcConfigurer para personalizar la configuración de Spring MVC.
 public class ConfiguracionSpring implements WebMvcConfigurer {
 
@@ -29,10 +30,13 @@ public class ConfiguracionSpring implements WebMvcConfigurer {
     public InternalResourceViewResolver viewResolver() {
         // Crea un objeto InternalResourceViewResolver.
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+
         // Configura el prefijo para las vistas JSP.
         resolver.setPrefix("/vistas/");
+
         // Configura el sufijo para las vistas JSP.
         resolver.setSuffix(".jsp");
+
         // Devuelve el objeto configurado.
         return resolver;
     }
@@ -49,8 +53,10 @@ public class ConfiguracionSpring implements WebMvcConfigurer {
     public ResourceBundleMessageSource messageSource() {
         // Crea un objeto ResourceBundleMessageSource.
         ResourceBundleMessageSource source = new ResourceBundleMessageSource();
+
         // Configura el nombre base ("messages") para buscar archivos de propiedades con mensajes internacionalizados.
         source.setBasename("messages");
+
         // Devuelve el objeto configurado.
         return source;
     }
