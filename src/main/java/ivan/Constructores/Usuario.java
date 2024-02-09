@@ -12,9 +12,7 @@ import java.util.List;
 @Component
 @Entity
 @Table(name = "USUARIOS")
-@Scope("prototype")  //Este componente con alcance prototype
-//significa que cada vez que se solicita el bean,
-// se crea una nueva instancia del mismo
+@Scope("singleton")  //Este componente con alcance singleton
 public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_seq")

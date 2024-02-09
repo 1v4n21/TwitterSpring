@@ -19,18 +19,18 @@
 
     <dependencies>
 
-        <!-- spring-webmvc -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>6.1.2</version>
-        </dependency>
-
-        <!-- spring-context -->
+        <!-- Spring Core y Context -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>6.1.2</version>
+        </dependency>
+
+        <!-- Spring Web MVC -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>6.0.9</version>
         </dependency>
 
         <!-- jakarta servlet -->

@@ -7,9 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Entity
 @Table(name = "GUARDADOS")
-@Scope("prototype")  //Este componente con alcance prototype
-//significa que cada vez que se solicita el bean,
-// se crea una nueva instancia del mismo
+@Scope("singleton")  //Este componente con alcance singleton
 public class Guardado {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "guardado_seq")
