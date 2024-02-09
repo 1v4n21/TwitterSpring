@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+
+    <!-- Define una unidad de persistencia llamada "JPAIvan" -->
+    <persistence-unit name="JPAIvan">
+
+        <!-- Configuración de propiedades para Hibernate -->
+        <class>ivan.Constructores.Usuario</class>
+        <class>ivan.Constructores.Publicacion</class>
+        <class>ivan.Constructores.MeGusta</class>
+        <class>ivan.Constructores.Guardado</class>
+
+        <properties>
+
+            <!-- Dialecto de Hibernate para Oracle -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.OracleDialect"/>
+
+            <!-- URL de conexión JDBC a la base de datos Oracle -->
+            <property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:1521:XE"/>
+
+            <!-- Clase del controlador JDBC de Oracle -->
+            <property name="hibernate.connection.driver_class" value="oracle.jdbc.OracleDriver"/>
+
+            <!-- Nombre de usuario para la conexión a la base de datos -->
+            <property name="hibernate.connection.username" value="Ivan"/>
+
+            <!-- Contraseña para la conexión a la base de datos -->
+            <property name="hibernate.connection.password" value="1234"/>
+
+            <!-- Formatear el SQL generado para que sea más legible -->
+            <property name="hibernate.format_sql" value="true"/>
+
+            <!-- Mostrar el SQL generado en la consola -->
+            <property name="hibernate.show_sql" value="false"/>
+
+            <!-- Estrategia para actualizar el esquema de la base de datos. -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+
+        </properties>
+    </persistence-unit>
+</persistence>
