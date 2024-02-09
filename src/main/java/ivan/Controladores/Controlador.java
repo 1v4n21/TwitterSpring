@@ -2,10 +2,11 @@ package ivan.Controladores;
 
 import ivan.Constructores.Usuario;
 import ivan.Modelos.UsuarioDAO;
+import ivan.Servicios.ServicioGuardado;
+import ivan.Servicios.ServicioMeGusta;
+import ivan.Servicios.ServicioPublicacion;
 import ivan.Servicios.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -13,7 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class Controlador {
 
     @Autowired
-    private ServicioUsuario servicio;
+    private ServicioUsuario servicioU;
+
+    @Autowired
+    private ServicioPublicacion servicioP;
+
+    @Autowired
+    private ServicioGuardado servicioG;
+
+    @Autowired
+    private ServicioMeGusta servicioM;
+
 
     public Controlador(){}
 
@@ -31,8 +42,8 @@ public class Controlador {
     String usuario(){
 
         try {
-            Usuario usuario1 = servicio.getUsuario();
-            UsuarioDAO usuarioDAO = servicio.getUsuarioDAO();
+            Usuario usuario1 = servicioU.getUsuario();
+            UsuarioDAO usuarioDAO = servicioU.getUsuarioDAO();
 
             usuario1.setNombre("Ivan");
             usuario1.setApellidos("Martinez");

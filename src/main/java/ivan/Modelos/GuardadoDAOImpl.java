@@ -6,8 +6,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class GuardadoDAOImpl implements GuardadoDAO {
     private static final String UP = "JPAIvan";
     private final EntityManagerFactory emf;
