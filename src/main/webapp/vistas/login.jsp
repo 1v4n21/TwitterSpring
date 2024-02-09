@@ -14,6 +14,7 @@
 <body>
 <h1>Login Spring MVC</h1>
 <a href="registro">Registro</a>
+<a href="inicio">Inicio</a>
 <br/>
 </body>
 </html>
