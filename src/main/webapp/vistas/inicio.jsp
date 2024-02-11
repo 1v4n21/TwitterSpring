@@ -54,35 +54,40 @@
     <!-- Posts -->
     <div class="container">
         <div class="post">
-            <div class="post-title">Primer Post</div>
+            <div class="post-title">@martinezzs29</div>
+            <small class="text-muted">Hace 2 horas</small>
             <div class="post-content">
                 Contenido del primer post. Aquí puedes compartir tus pensamientos y experiencias.
             </div>
         </div>
 
         <div class="post">
-            <div class="post-title">Segundo Post</div>
+            <div class="post-title">@martinezzs29</div>
+            <small class="text-muted">Hace 2 horas</small>
             <div class="post-content">
                 Otro post interesante. Puedes comentar y dar like a los posts de tus amigos.
             </div>
         </div>
 
         <div class="post">
-            <div class="post-title">Tercer Post</div>
+            <div class="post-title">@martinezzs29</div>
+            <small class="text-muted">Hace 2 horas</small>
             <div class="post-content">
                 Comparte fotos y enlaces. ¡Personaliza tu perfil!
             </div>
         </div>
 
         <div class="post">
-            <div class="post-title">Cuarto Post</div>
+            <div class="post-title">@martinezzs29</div>
+            <small class="text-muted">Hace 2 horas</small>
             <div class="post-content">
                 Utiliza hashtags para categorizar tus posts. #RedSocial
             </div>
         </div>
 
         <div class="post">
-            <div class="post-title">Quinto Post</div>
+            <div class="post-title">@martinezzs29</div>
+            <small class="text-muted">Hace 2 horas</small>
             <div class="post-content">
                 ¡Bienvenido a mi red social! Espero que disfrutes de la experiencia.
             </div>
