@@ -43,9 +43,9 @@ public class ConfiguracionSpring implements WebMvcConfigurer {
 
     // Método para configurar manejadores de recursos estáticos.
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Agrega un manejador de recursos para las URL que coinciden con "/misRecursosEstaticos/**".
-        // Asocia estas URL con la ubicación "/recursosEstaticos/" en la aplicación.
-        registry.addResourceHandler(new String[]{"/misRecursosEstaticos/**"}).addResourceLocations(new String[]{"/RecursosEstaticos/"});
+        // Agrega un manejador de recursos para las URL que coinciden con "/static/**".
+        // Asocia estas URL con la ubicación "/RecursosEstaticos/" en la aplicación.
+        registry.addResourceHandler(new String[]{"/static/**"}).addResourceLocations(new String[]{"/RecursosEstaticos/"});
     }
 
     // Método anotado con @Bean que configura el ResourceBundleMessageSource para manejar mensajes internacionalizados.
