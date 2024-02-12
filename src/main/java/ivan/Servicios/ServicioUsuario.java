@@ -59,4 +59,6 @@ public class ServicioUsuario {
     public void eliminarUsuario(int idUsuario) {
         usuarioDAO.eliminarUsuario(idUsuario);
     }
+
+    public Usuario verificarUsuario(String nombreUsuario, String password){ return usuarioDAO.verificarUsuario (nombreUsuario, password); }
 }

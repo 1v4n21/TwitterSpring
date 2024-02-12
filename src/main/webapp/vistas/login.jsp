@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -34,20 +36,44 @@
         <div class="text-center mt-4 name">
             SocialTweet
         </div>
-        <form class="p-3 mt-3">
+
+        <form:form action="login" method="post" modelAttribute="elUsuario" id="loginForm">
+
+            <!-- Nombre de Usuario -->
             <div class="form-field d-flex align-items-center">
                 <span class="fa-solid fa-user"></span>
-                <input type="text" name="userName" id="userName" placeholder="Nombre Usuario">
+                <form:input path="nombreUsuario" id="userName" placeholder="Nombre Usuario" />
             </div>
+
+            <!-- Contraseña -->
             <div class="form-field d-flex align-items-center">
                 <span class="fa-solid fa-key"></span>
-                <input type="password" name="password" id="pwd" placeholder="Contraseña">
+                <form:password path="password" id="pwd" placeholder="Contraseña" />
             </div>
-            <a href="inicio" class="btn mt-3">Iniciar Sesion</a>
-        </form>
+
+            <!-- Boton de envio de formulario -->
+            <button type="submit" class="btn mt-3">Iniciar Sesión</button>
+        </form:form>
+
+        <!-- Limpiar los input en caso de error -->
+        <c:if test="${hasError}">
+            <script>
+                document.getElementById("userName").value = "";
+                document.getElementById("pwd").value = "";
+            </script>
+        </c:if>
+
+        <!-- Link para realizar el registro -->
         <div class="text-center fs-6">
             <a href="registro">No tienes cuenta? Registrate</a>
         </div>
+
+        <!-- mostrar el mensaje de error -->
+        <c:if test="${not empty error}">
+            <div class="alert alert-danger mt-3">
+                <p><c:out value="${error}" /></p>
+            </div>
+        </c:if>
     </div>
 
     <!-- Script bootsrap -->

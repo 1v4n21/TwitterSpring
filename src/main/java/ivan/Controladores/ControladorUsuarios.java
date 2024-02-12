@@ -8,7 +8,13 @@ import ivan.Servicios.ServicioPublicacion;
 import ivan.Servicios.ServicioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 
 @Controller
 public class ControladorUsuarios {
@@ -28,9 +34,29 @@ public class ControladorUsuarios {
 
     public ControladorUsuarios (){}
 
-    @RequestMapping({"/", "/login"})
-    public String login(){
+    @GetMapping({"/login", "/"})
+    public String mostrarLogin(Model modelo) {
+        modelo.addAttribute("elUsuario", servicioU.getUsuario ());
         return "login";
+    }
+
+    @PostMapping("/login")
+    public String validarLogin(@ModelAttribute("elUsuario") @Valid Usuario usuario, BindingResult result, Model model) {
+        if (!result.hasErrors()) {
+            Usuario usuario1 = servicioU.verificarUsuario(usuario.getNombreUsuario(), usuario.getPassword());
+
+            if (usuario1 != null) {
+                return "redirect:/inicio";
+            } else {
+                model.addAttribute("error", "Credenciales incorrectas. Inténtalo de nuevo.");
+                model.addAttribute("hasError", true);
+                return "login";
+            }
+        } else {
+            // Restablecer el modelo en caso de errores
+            model.addAttribute("hasError", true);
+            return "login";
+        }
     }
 
     @RequestMapping({"/registro"})

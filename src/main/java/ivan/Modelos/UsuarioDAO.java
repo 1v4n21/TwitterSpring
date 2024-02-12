@@ -10,5 +10,6 @@ public interface UsuarioDAO {
     List<Usuario> obtenerTodosLosUsuarios();
     void actualizarUsuario(Usuario usuario);
     void eliminarUsuario(int idUsuario);
+    Usuario verificarUsuario(String nombreUsuario, String password);
 }
 
