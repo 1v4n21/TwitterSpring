@@ -43,7 +43,7 @@
                 <span class="fa-solid fa-key"></span>
                 <input type="password" name="password" id="pwd" placeholder="Contraseña">
             </div>
-            <button class="btn mt-3">Iniciar Sesion</button>
+            <a href="inicio" class="btn mt-3">Iniciar Sesion</a>
         </form>
         <div class="text-center fs-6">
             <a href="registro">No tienes cuenta? Registrate</a>

@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -57,46 +59,31 @@
 
     <!-- Posts -->
     <div class="container">
-        <div class="post">
-            <div class="post-title">@martinezzs29</div>
-            <small class="text-muted">Hace 2 horas</small>
-            <div class="post-content">
-                Contenido del primer post. Aquí puedes compartir tus pensamientos y experiencias.
+        <c:forEach items="${lasPublicaciones}" var="post">
+            <div class="post">
+                <div class="post-title">@${post.usuario.nombreUsuario}</div>
+                <small class="text-muted">${post.fecha}</small>
+                <div class="post-content">
+                        ${post.mensaje}
+                </div>
+                <br>
+                <div class="post-actions">
+                    <c:if test="${post.usuarioHaDadoMeGusta(70)}">
+                        <i class="fa-solid fa-thumbs-up"></i> ${post.meGustas.size()}
+                    </c:if>
+                    <c:if test="${!post.usuarioHaDadoMeGusta(70)}">
+                        <i class="fa-regular fa-thumbs-up"></i> ${post.meGustas.size()}
+                    </c:if>
+                    &nbsp;&nbsp;&nbsp;
+                    <c:if test="${post.usuarioHaGuardado(70)}">
+                        <i class="fa-solid fa-bookmark"></i> ${post.guardados.size()}
+                    </c:if>
+                    <c:if test="${!post.usuarioHaGuardado(70)}">
+                        <i class="fa-regular fa-bookmark"></i> ${post.guardados.size()}
+                    </c:if>
+                </div>
             </div>
-        </div>
-
-        <div class="post">
-            <div class="post-title">@martinezzs29</div>
-            <small class="text-muted">Hace 2 horas</small>
-            <div class="post-content">
-                Otro post interesante. Puedes comentar y dar like a los posts de tus amigos.
-            </div>
-        </div>
-
-        <div class="post">
-            <div class="post-title">@martinezzs29</div>
-            <small class="text-muted">Hace 2 horas</small>
-            <div class="post-content">
-                Comparte fotos y enlaces. ¡Personaliza tu perfil!
-            </div>
-        </div>
-
-        <div class="post">
-            <div class="post-title">@martinezzs29</div>
-            <small class="text-muted">Hace 2 horas</small>
-            <div class="post-content">
-                Utiliza hashtags para categorizar tus posts. #RedSocial
-            </div>
-        </div>
-
-        <div class="post">
-            <div class="post-title">@martinezzs29</div>
-            <small class="text-muted">Hace 2 horas</small>
-            <div class="post-content">
-                ¡Bienvenido a mi red social! Espero que disfrutes de la experiencia.
-            </div>
-        </div>
-
+        </c:forEach>
     </div>
 
     <!-- Scripts de Bootstrap -->

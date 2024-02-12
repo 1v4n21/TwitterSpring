@@ -91,4 +91,14 @@ public class Publicacion {
     public void setGuardados(List<Guardado> guardados) {
         this.guardados = guardados;
     }
+
+    public boolean usuarioHaDadoMeGusta(int idUsuario) {
+        // Comprueba si hay un "Me gusta" del usuario
+        return meGustas.stream().anyMatch(m -> m.getUsuario().getIdUsuario() == idUsuario);
+    }
+
+    public boolean usuarioHaGuardado(int idUsuario) {
+        // Comprueba si hay un "Guardado" del usuario
+        return guardados.stream().anyMatch(g -> g.getUsuario().getIdUsuario() == idUsuario);
+    }
 }

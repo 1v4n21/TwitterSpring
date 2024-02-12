@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class Controlador {
+public class ControladorUsuarios {
 
     @Autowired
     private ServicioUsuario servicioU;
@@ -26,16 +26,16 @@ public class Controlador {
     private ServicioMeGusta servicioM;
 
 
-    public Controlador(){}
+    public ControladorUsuarios (){}
 
     @RequestMapping({"/", "/login"})
-    public String saludo(){
-        return "login";  //.jsp
+    public String login(){
+        return "login";
     }
 
     @RequestMapping({"/registro"})
     public String registro(){
-        return "registro";  //.jsp
+        return "registro";
     }
 
     @RequestMapping({"/usuario"})
