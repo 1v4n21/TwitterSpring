@@ -55,7 +55,10 @@
         </div>
     </nav>
 
-    <br><br>
+    <!-- Nombre de usuario -->
+    <br>
+    <p class="text-center display-6">Usuario: <span class="text-primary">@${usuarioLogueado.nombreUsuario}</span></p>
+    <br>
 
     <!-- Posts -->
     <div class="container">
@@ -68,26 +71,56 @@
                 </div>
                 <br>
                 <div class="post-actions">
+                    <!-- Si el usuario a dado me gusta -->
                     <c:if test="${post.usuarioHaDadoMeGusta(usuarioLogueado.idUsuario)}">
-                        <i class="fa-solid fa-thumbs-up"></i> ${post.meGustas.size()}
+                        <i class="fa-solid fa-thumbs-up" onclick="darLike(${post.idPublicacion}, ${usuarioLogueado.idUsuario})"></i>
+                        <span style="display: inline;">${post.meGustas.size()}</span>
                     </c:if>
+
+                    <!-- Si el usuario no ha dado me gusta -->
                     <c:if test="${!post.usuarioHaDadoMeGusta(usuarioLogueado.idUsuario)}">
-                        <i class="fa-regular fa-thumbs-up"></i> ${post.meGustas.size()}
+                        <i class="fa-regular fa-thumbs-up" onclick="darLike(${post.idPublicacion}, ${usuarioLogueado.idUsuario})"></i>
+                        <span style="display: inline;">${post.meGustas.size()}</span>
                     </c:if>
+
                     &nbsp;&nbsp;&nbsp;
+
+                    <!-- Si el usuario ha guardado el post -->
                     <c:if test="${post.usuarioHaGuardado(usuarioLogueado.idUsuario)}">
-                        <i class="fa-solid fa-bookmark"></i> ${post.guardados.size()}
+                        <i class="fa-solid fa-bookmark" onclick="guardarPost(${post.idPublicacion}, ${usuarioLogueado.idUsuario})"></i>
+                        <span style="display: inline;">${post.guardados.size()}</span>
                     </c:if>
+
+                    <!-- Si el usuario no ha guardado el post -->
                     <c:if test="${!post.usuarioHaGuardado(usuarioLogueado.idUsuario)}">
-                        <i class="fa-regular fa-bookmark"></i> ${post.guardados.size()}
+                        <i class="fa-regular fa-bookmark" onclick="guardarPost(${post.idPublicacion}, ${usuarioLogueado.idUsuario})"></i>
+                        <span style="display: inline;">${post.guardados.size()}</span>
+                    </c:if>
+
+                    <!-- Mostrar íconos de editar y eliminar si el usuario es el creador del post o tiene rol admin -->
+                    <c:if test="${post.usuario.idUsuario eq usuarioLogueado.idUsuario or usuarioLogueado.rol eq 'admin'}">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <i class="fa-solid fa-edit"></i>
+                        &nbsp;&nbsp;&nbsp;
+                        <i class="fa-solid fa-trash-alt"></i>
                     </c:if>
                 </div>
             </div>
         </c:forEach>
     </div>
 
+    <!-- Añadir post -->
+    <div class="fixed-logo">
+        <i class="fa-solid fa-square-plus fa-2x"></i>
+    </div>
+
+    <br>
+
     <!-- Scripts de Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script de Ajax -->
+    <script src="static/javascript/ajax.js"></script>
 </body>
 </html>
 

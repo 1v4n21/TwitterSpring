@@ -2,6 +2,8 @@ package ivan.Modelos;
 
 import ivan.Constructores.Guardado;
 import java.util.List;
+
+import ivan.Constructores.MeGusta;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
@@ -63,14 +65,20 @@ public class GuardadoDAOImpl implements GuardadoDAO {
         return q.getResultList();
     }
 
-    @Override
     public Guardado obtenerGuardadoPorIdUsuarioYIdPublicacion(int idUsuario, int idPublicacion) {
         EntityManager em = emf.createEntityManager();
         String hql = "from Guardado g where g.usuario.idUsuario = :idUsuario and g.publicacion.idPublicacion = :idPublicacion";
         Query q = em.createQuery(hql);
         q.setParameter("idUsuario", idUsuario);
         q.setParameter("idPublicacion", idPublicacion);
-        return (Guardado) q.getSingleResult();
+
+        List<Guardado> resultList = q.getResultList();
+
+        if (resultList.isEmpty()) {
+            return null;
+        } else {
+            return resultList.get(0);
+        }
     }
 
     @Override

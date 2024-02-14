@@ -64,14 +64,20 @@ public class MeGustaDAOImpl implements MeGustaDAO {
         return q.getResultList();
     }
 
-    @Override
     public MeGusta obtenerMeGustaPorIdUsuarioYIdPublicacion(int idUsuario, int idPublicacion) {
         EntityManager em = emf.createEntityManager();
         String hql = "from MeGusta mg where mg.usuario.idUsuario = :idUsuario and mg.publicacion.idPublicacion = :idPublicacion";
         Query q = em.createQuery(hql);
         q.setParameter("idUsuario", idUsuario);
         q.setParameter("idPublicacion", idPublicacion);
-        return (MeGusta) q.getSingleResult();
+
+        List<MeGusta> resultList = q.getResultList();
+
+        if (resultList.isEmpty()) {
+            return null;
+        } else {
+            return resultList.get(0);
+        }
     }
 
     @Override

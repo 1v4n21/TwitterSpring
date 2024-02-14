@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class ControladorUsuarios {
@@ -25,15 +26,18 @@ public class ControladorUsuarios {
 
     @RequestMapping({"/"})
     public String cargarAdmin(Model modelo) {
-        //Añadimos el usuario admin
-        Usuario a1 = servicioU.getUsuario ();
-        a1.setNombre ("Admin1");
-        a1.setEmail ("Admin1@gmail.com");
-        a1.setNombreUsuario ("admin1");
-        a1.setPassword ("root1234");
-        a1.setRol ("admin");
+        // Verificar si ya existe un usuario admin
+        if (servicioU.obtenerUsuarioPorNombreUsuario("admin") == null) {
+            // Si no existe, creamos el usuario admin
+            Usuario a1 = new Usuario();
+            a1.setNombre("Admin");
+            a1.setEmail("Admin@gmail.com");
+            a1.setNombreUsuario("admin");
+            a1.setPassword("root1234");
+            a1.setRol("admin");
 
-        servicioU.agregarUsuario (a1);
+            servicioU.agregarUsuario(a1);
+        }
 
         return "redirect:/login";
     }
@@ -116,5 +120,17 @@ public class ControladorUsuarios {
             model.addAttribute("hasError", true);
             return "registro";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        // Obtener la sesión y invalidarla
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        // Redirigir a la página de login
+        return "redirect:/login";
     }
 }
