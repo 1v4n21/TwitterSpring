@@ -2,6 +2,8 @@ package ivan.Constructores;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -20,9 +22,12 @@ public class Usuario implements Serializable {
     @Column(name = "idUsuario")
     private int idUsuario;
 
+    @NotBlank
+    @Size(max = 20)
     @Column(name = "nombreUsuario")
     private String nombreUsuario;
 
+    @NotBlank
     @Column(name = "nombre")
     private String nombre;
 
@@ -32,9 +37,12 @@ public class Usuario implements Serializable {
     @Column(name = "localidad")
     private String localidad;
 
+    @NotBlank
     @Column(name = "email")
     private String email;
 
+    @NotBlank
+    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
     @Column(name = "password")
     private String password;
 

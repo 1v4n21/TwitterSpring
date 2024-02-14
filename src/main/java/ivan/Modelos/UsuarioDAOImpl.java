@@ -88,6 +88,22 @@ public class UsuarioDAOImpl implements UsuarioDAO {
             em.close();
         }
     }
+
+    @Override
+    public Usuario obtenerUsuarioPorNombreUsuario(String nombreUsuario) {
+        EntityManager em = emf.createEntityManager();
+        String hql = "SELECT u FROM Usuario u WHERE u.nombreUsuario = :nombreUsuario";
+        TypedQuery<Usuario> query = em.createQuery(hql, Usuario.class);
+        query.setParameter("nombreUsuario", nombreUsuario);
+
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
 }
 
 

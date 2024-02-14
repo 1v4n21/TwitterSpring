@@ -47,18 +47,5 @@ public class ConfiguracionSpring implements WebMvcConfigurer {
         // Asocia estas URL con la ubicación "/RecursosEstaticos/" en la aplicación.
         registry.addResourceHandler(new String[]{"/static/**"}).addResourceLocations(new String[]{"/RecursosEstaticos/"});
     }
-
-    // Método anotado con @Bean que configura el ResourceBundleMessageSource para manejar mensajes internacionalizados.
-    @Bean
-    public ResourceBundleMessageSource messageSource() {
-        // Crea un objeto ResourceBundleMessageSource.
-        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
-
-        // Configura el nombre base ("messages") para buscar archivos de propiedades con mensajes internacionalizados.
-        source.setBasename("messages");
-
-        // Devuelve el objeto configurado.
-        return source;
-    }
 }
 
