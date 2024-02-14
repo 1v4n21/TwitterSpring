@@ -5,6 +5,8 @@ import ivan.Servicios.ServicioGuardado;
 import ivan.Servicios.ServicioMeGusta;
 import ivan.Servicios.ServicioPublicacion;
 import ivan.Servicios.ServicioUsuario;
+import jakarta.servlet.http.HttpSession;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,9 +34,10 @@ public class ControladorPublicaciones {
     }
 
     @RequestMapping({"inicio"})
-    public String inicio (Model modelo) {
+    public String inicio (Model modelo, HttpSession session) {
         List<Publicacion> publicaciones = servicioP.obtenerTodasLasPublicaciones ();
         modelo.addAttribute ("lasPublicaciones", publicaciones);
-        return "inicio";  //.jsp
+        modelo.addAttribute ("usuarioLogueado", session.getAttribute ("usuarioLogueado"));
+        return "inicio";
     }
 }

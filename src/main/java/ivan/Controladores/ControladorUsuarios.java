@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class ControladorUsuarios {
@@ -22,7 +23,22 @@ public class ControladorUsuarios {
 
     public ControladorUsuarios (){}
 
-    @GetMapping({"/login", "/"})
+    @RequestMapping({"/"})
+    public String cargarAdmin(Model modelo) {
+        //Añadimos el usuario admin
+        Usuario a1 = servicioU.getUsuario ();
+        a1.setNombre ("Admin1");
+        a1.setEmail ("Admin1@gmail.com");
+        a1.setNombreUsuario ("admin1");
+        a1.setPassword ("root1234");
+        a1.setRol ("admin");
+
+        servicioU.agregarUsuario (a1);
+
+        return "redirect:/login";
+    }
+
+    @GetMapping({"/login"})
     public String mostrarLogin(Model modelo) {
         //Añadimos el modelo de usuario y mandamos a login de nuevo
         modelo.addAttribute("elUsuario", new LoginForm ());

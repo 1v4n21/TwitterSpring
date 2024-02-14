@@ -68,17 +68,17 @@
                 </div>
                 <br>
                 <div class="post-actions">
-                    <c:if test="${post.usuarioHaDadoMeGusta(70)}">
+                    <c:if test="${post.usuarioHaDadoMeGusta(usuarioLogueado.idUsuario)}">
                         <i class="fa-solid fa-thumbs-up"></i> ${post.meGustas.size()}
                     </c:if>
-                    <c:if test="${!post.usuarioHaDadoMeGusta(70)}">
+                    <c:if test="${!post.usuarioHaDadoMeGusta(usuarioLogueado.idUsuario)}">
                         <i class="fa-regular fa-thumbs-up"></i> ${post.meGustas.size()}
                     </c:if>
                     &nbsp;&nbsp;&nbsp;
-                    <c:if test="${post.usuarioHaGuardado(70)}">
+                    <c:if test="${post.usuarioHaGuardado(usuarioLogueado.idUsuario)}">
                         <i class="fa-solid fa-bookmark"></i> ${post.guardados.size()}
                     </c:if>
-                    <c:if test="${!post.usuarioHaGuardado(70)}">
+                    <c:if test="${!post.usuarioHaGuardado(usuarioLogueado.idUsuario)}">
                         <i class="fa-regular fa-bookmark"></i> ${post.guardados.size()}
                     </c:if>
                 </div>

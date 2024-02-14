@@ -22,12 +22,12 @@ public class Usuario implements Serializable {
     @Column(name = "idUsuario")
     private int idUsuario;
 
-    @NotBlank
-    @Size(max = 20)
+    @NotBlank(message = "El campo nombreUsuario no puede estar vacío")
+    @Size(max = 20, message = "El nombre de usuario no puede tener mas de 20 caracteres")
     @Column(name = "nombreUsuario")
     private String nombreUsuario;
 
-    @NotBlank
+    @NotBlank(message = "El campo nombre no puede estar vacío")
     @Column(name = "nombre")
     private String nombre;
 
@@ -37,11 +37,11 @@ public class Usuario implements Serializable {
     @Column(name = "localidad")
     private String localidad;
 
-    @NotBlank
+    @NotBlank(message = "El campo email no puede estar vacío")
     @Column(name = "email")
     private String email;
 
-    @NotBlank
+    @NotBlank(message = "El campo contraseña no puede estar vacío")
     @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
     @Column(name = "password")
     private String password;
