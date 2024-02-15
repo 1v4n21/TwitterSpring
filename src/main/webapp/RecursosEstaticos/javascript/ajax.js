@@ -1,6 +1,6 @@
 
 //Funcion al dar me gusta
-function darLike(postId, userId) {
+function darLike(postId, userId, event) {
     fetch(`darLike?postId=${postId}&userId=${userId}`, {
         method: 'POST',
         credentials: 'same-origin',
@@ -11,7 +11,7 @@ function darLike(postId, userId) {
         .then(response => response.json())
         .then(data => {
             // Actualiza la interfaz de usuario según la respuesta del servidor
-            const likeIcon = document.querySelector(`.post-actions i[onclick="darLike(${postId}, ${userId})"]`);
+            const likeIcon = event.target;
             const likeCountElement = likeIcon.nextElementSibling; // Obtiene el siguiente elemento (en este caso, el <span>)
 
             if (data.liked) {
@@ -28,7 +28,7 @@ function darLike(postId, userId) {
 }
 
 //Funcion al guardar la publicacion
-function guardarPost(postId, userId) {
+function guardarPost(postId, userId, event) {
     fetch(`guardarPost?postId=${postId}&userId=${userId}`, {
         method: 'POST',
         credentials: 'same-origin',
@@ -39,7 +39,7 @@ function guardarPost(postId, userId) {
         .then(response => response.json())
         .then(data => {
             // Actualiza la interfaz de usuario según la respuesta del servidor
-            const saveIcon = document.querySelector(`.post-actions i[onclick="guardarPost(${postId}, ${userId})"]`);
+            const saveIcon = event.target;
             const saveCountElement = saveIcon.nextElementSibling; // Obtiene el siguiente elemento (en este caso, el <span>)
 
             if (data.saved) {
@@ -100,9 +100,85 @@ document.addEventListener("DOMContentLoaded", function () {
         })
             .then(response => response.json())
             .then(data => {
-                // Maneja los resultados de la búsqueda de publicaciones
+                // Manejar los resultados de la búsqueda de publicaciones
                 console.log(data);
-                // Aquí puedes actualizar la interfaz de usuario con los resultados
+
+                // Actualizar la interfaz de usuario con los resultados
+                const resultadosContainer = document.getElementById("resultadosContainer");
+
+                // Limpiar resultados anteriores
+                resultadosContainer.innerHTML = '';
+
+                // Iterar sobre las publicaciones y crear elementos HTML
+                data.publicaciones.forEach(publicacion => {
+                    const postDiv = document.createElement("div");
+                    postDiv.className = "post";
+                    postDiv.dataset.id = publicacion.idPublicacion;
+
+                    const postTitle = document.createElement("div");
+                    postTitle.className = "post-title";
+                    postTitle.textContent = `@${publicacion.nombreUsuario}`;
+
+                    const postTime = document.createElement("small");
+                    postTime.className = "text-muted";
+                    postTime.textContent = publicacion.fecha;
+
+                    const postContent = document.createElement("div");
+                    postContent.className = "post-content";
+                    postContent.textContent = publicacion.mensaje;
+
+                    const postActions = document.createElement("div");
+                    postActions.className = "post-actions";
+
+                    // Icono de me gusta
+                    const likeIcon = document.createElement("i");
+                    likeIcon.className = publicacion.usuarioHaDadoMeGusta
+                        ? "fa-solid fa-thumbs-up"
+                        : "fa-regular fa-thumbs-up";
+                    likeIcon.onclick = function () {
+                        darLike(publicacion.idPublicacion, data.usuarioActual.id, event);
+                    };
+
+                    // Contador de me gustas
+                    const likeCount = document.createElement("span");
+                    likeCount.style.display = "inline";
+                    likeCount.textContent = publicacion.megustas;
+
+                    // Icono de guardar
+                    const bookmarkIcon = document.createElement("i");
+                    bookmarkIcon.className = publicacion.usuarioHaGuardado
+                        ? "fa-solid fa-bookmark"
+                        : "fa-regular fa-bookmark";
+                    bookmarkIcon.onclick = function () {
+                        guardarPost(publicacion.idPublicacion, data.usuarioActual.id, event);
+                    };
+
+                    // Contador de guardados
+                    const bookmarkCount = document.createElement("span");
+                    bookmarkCount.style.display = "inline";
+                    bookmarkCount.textContent = publicacion.guardados;
+
+                    // Agregar elementos al div del post
+                    postDiv.appendChild(postTitle);
+                    postDiv.appendChild(postTime);
+                    postDiv.appendChild(postContent);
+                    postDiv.appendChild(document.createElement("br"));
+                    postDiv.appendChild(postActions);
+                    postActions.appendChild(likeIcon);
+                    postActions.appendChild(document.createTextNode("\u00A0"));
+                    postActions.appendChild(likeCount);
+                    postActions.appendChild(document.createTextNode("\u00A0\u00A0\u00A0\u00A0\u00A0"));
+                    postActions.appendChild(bookmarkIcon);
+                    postActions.appendChild(document.createTextNode("\u00A0"));
+                    postActions.appendChild(bookmarkCount);
+
+                    // Agregar el div del post al contenedor
+                    resultadosContainer.appendChild(postDiv);
+                });
+
+                // Mostrar información del usuario actual
+                const usuarioActual = data.usuarioActual;
+                console.log(`Usuario Actual - ID: ${usuarioActual.id}, Rol: ${usuarioActual.rol}`);
             })
             .catch(error => console.error('Error al realizar la solicitud fetch:', error));
     });

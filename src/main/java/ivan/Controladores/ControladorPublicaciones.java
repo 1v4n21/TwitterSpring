@@ -133,9 +133,44 @@ public class ControladorPublicaciones {
 
     @PostMapping("/buscarPublicaciones")
     @ResponseBody
-    public ResponseEntity<String> buscarPublicaciones(@RequestParam String username) {
+    public ResponseEntity<String> buscarPublicaciones(@RequestParam String username, HttpSession session) {
+        // Obtener la información del usuario logueado desde la sesión
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        Integer idUsuario = usuarioLogueado.getIdUsuario ();
+        String rolUsuario = usuarioLogueado.getRol ();
+
         // Obtener la publicación
-        List<Publicacion> publicaciones = servicioP.buscarPublicacionesPorNombreUsuario (username);
-        return ResponseEntity.ok("{\"respuesta\":\"okk\"}");
+        List<Publicacion> publicaciones = servicioP.buscarPublicacionesPorNombreUsuario(username);
+
+        // Construir manualmente el JSON
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.append("{")
+                .append("\"usuarioActual\":{")
+                .append("\"id\":").append(idUsuario).append(",")
+                .append("\"rol\":\"").append(rolUsuario).append("\"")
+                .append("},")
+                .append("\"publicaciones\":[");
+
+        for (Publicacion publicacion : publicaciones) {
+            jsonBuilder.append("{")
+                    .append("\"idPublicacion\":").append(publicacion.getIdPublicacion()).append(",")
+                    .append("\"mensaje\":\"").append(publicacion.getMensaje()).append("\",")
+                    .append("\"fecha\":\"").append(publicacion.obtenerTiempoTranscurrido ()).append("\",")
+                    .append("\"idUsuario\":").append(publicacion.getUsuario().getIdUsuario()).append(",")
+                    .append("\"nombreUsuario\":\"").append(publicacion.getUsuario().getNombreUsuario()).append("\",")
+                    .append("\"megustas\":").append(publicacion.getMeGustas().size()).append(",")
+                    .append("\"guardados\":").append(publicacion.getGuardados().size()).append(",")
+                    .append("\"usuarioHaDadoMeGusta\":").append(publicacion.usuarioHaDadoMeGusta(idUsuario)).append(",")
+                    .append("\"usuarioHaGuardado\":").append(publicacion.usuarioHaGuardado(idUsuario))
+                    .append("},");
+        }
+
+        if (!publicaciones.isEmpty()) {
+            jsonBuilder.deleteCharAt(jsonBuilder.length() - 1); // Eliminar la última coma
+        }
+
+        jsonBuilder.append("]}");
+
+        return ResponseEntity.ok(jsonBuilder.toString());
     }
 }

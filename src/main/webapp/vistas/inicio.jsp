@@ -62,7 +62,7 @@
     <br>
 
     <!-- Posts -->
-    <div class="container">
+    <div class="container" id="resultadosContainer">
         <c:forEach items="${lasPublicaciones}" var="post">
             <div class="post" data-id="${post.idPublicacion}">
                 <div class="post-title">@${post.usuario.nombreUsuario}</div>
@@ -74,13 +74,13 @@
                 <div class="post-actions">
                     <!-- Si el usuario a dado me gusta -->
                     <c:if test="${post.usuarioHaDadoMeGusta(usuarioLogueado.idUsuario)}">
-                        <i class="fa-solid fa-thumbs-up" onclick="darLike(${post.idPublicacion}, ${usuarioLogueado.idUsuario})"></i>
+                        <i class="fa-solid fa-thumbs-up" onclick="darLike(${post.idPublicacion}, ${usuarioLogueado.idUsuario}, event)"></i>
                         <span style="display: inline;">${post.meGustas.size()}</span>
                     </c:if>
 
                     <!-- Si el usuario no ha dado me gusta -->
                     <c:if test="${!post.usuarioHaDadoMeGusta(usuarioLogueado.idUsuario)}">
-                        <i class="fa-regular fa-thumbs-up" onclick="darLike(${post.idPublicacion}, ${usuarioLogueado.idUsuario})"></i>
+                        <i class="fa-regular fa-thumbs-up" onclick="darLike(${post.idPublicacion}, ${usuarioLogueado.idUsuario}, event)"></i>
                         <span style="display: inline;">${post.meGustas.size()}</span>
                     </c:if>
 
@@ -88,13 +88,13 @@
 
                     <!-- Si el usuario ha guardado el post -->
                     <c:if test="${post.usuarioHaGuardado(usuarioLogueado.idUsuario)}">
-                        <i class="fa-solid fa-bookmark" onclick="guardarPost(${post.idPublicacion}, ${usuarioLogueado.idUsuario})"></i>
+                        <i class="fa-solid fa-bookmark" onclick="guardarPost(${post.idPublicacion}, ${usuarioLogueado.idUsuario}, event)"></i>
                         <span style="display: inline;">${post.guardados.size()}</span>
                     </c:if>
 
                     <!-- Si el usuario no ha guardado el post -->
                     <c:if test="${!post.usuarioHaGuardado(usuarioLogueado.idUsuario)}">
-                        <i class="fa-regular fa-bookmark" onclick="guardarPost(${post.idPublicacion}, ${usuarioLogueado.idUsuario})"></i>
+                        <i class="fa-regular fa-bookmark" onclick="guardarPost(${post.idPublicacion}, ${usuarioLogueado.idUsuario}, event)"></i>
                         <span style="display: inline;">${post.guardados.size()}</span>
                     </c:if>
 

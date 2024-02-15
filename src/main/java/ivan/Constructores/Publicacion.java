@@ -118,13 +118,13 @@ public class Publicacion {
             long dias = horas / 24;
 
             if (dias > 0) {
-                return dias + (dias == 1 ? " día" : " días") + " atrás";
+                return dias + (dias == 1 ? " día" : " días") + " atras";
             } else if (horas > 0) {
-                return horas + (horas == 1 ? " hora" : " horas") + " atrás";
+                return horas + (horas == 1 ? " hora" : " horas") + " atras";
             } else if (minutos > 0) {
-                return minutos + (minutos == 1 ? " minuto" : " minutos") + " atrás";
+                return minutos + (minutos == 1 ? " minuto" : " minutos") + " atras";
             } else {
-                return segundos + (segundos == 1 ? " segundo" : " segundos") + " atrás";
+                return segundos + (segundos == 1 ? " segundo" : " segundos") + " atras";
             }
         } else {
             return "Fecha no disponible";
