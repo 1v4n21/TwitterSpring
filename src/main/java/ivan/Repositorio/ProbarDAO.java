@@ -61,8 +61,10 @@ public class ProbarDAO {
         Usuario usuario3 = new Usuario();
         Usuario usuario4 = new Usuario();
 
-        Publicacion publicacion1 = new Publicacion("Mensaje de prueba 1", new Date(), usuario3);
-        Publicacion publicacion2 = new Publicacion("Mensaje de prueba 2", new Date(), usuario4);
+        Publicacion publicacion1 = new Publicacion("Mensaje de prueba 1", usuario3);
+        publicacion1.setFecha (new Date ());
+        Publicacion publicacion2 = new Publicacion("Mensaje de prueba 2", usuario4);
+        publicacion2.setFecha (new Date ());
 
         PublicacionDAO publicacionDAO = new PublicacionDAOImpl();
 

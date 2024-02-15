@@ -5,6 +5,7 @@ import ivan.Modelos.UsuarioDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -62,4 +63,5 @@ public class ServicioUsuario {
 
     public Usuario verificarUsuario(String nombreUsuario, String password){ return usuarioDAO.verificarUsuario (nombreUsuario, password); }
     public Usuario obtenerUsuarioPorNombreUsuario(String nombreUsuario){return usuarioDAO.obtenerUsuarioPorNombreUsuario (nombreUsuario); }
+
 }

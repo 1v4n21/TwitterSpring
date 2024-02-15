@@ -40,7 +40,7 @@ public class PublicacionDAOImpl implements PublicacionDAO {
     @Override
     public List<Publicacion> obtenerTodasLasPublicaciones() {
         EntityManager em = emf.createEntityManager();
-        String hql = "from Publicacion p";
+        String hql = "FROM Publicacion p ORDER BY p.fecha DESC"; // DESC para ordenar de más reciente a más antiguo
         Query q = em.createQuery(hql);
         return q.getResultList();
     }

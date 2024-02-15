@@ -55,3 +55,31 @@ function guardarPost(postId, userId) {
         .catch(error => console.error('Error al realizar la solicitud fetch:', error));
 }
 
+//Funcion para borrar publicación
+function borrarPost(postId) {
+    fetch(`borrarPost?postId=${postId}`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Verificamos el estado de la respuesta
+            if (data.respuesta === "ok") {
+                // Encuentra el contenedor del post por su ID y elimínalo
+                var postContainer = document.querySelector(`div[data-id="${postId}"]`);
+                if (postContainer) {
+                    postContainer.remove();
+                } else {
+                    console.error("No se encontró el contenedor del post");
+                }
+            } else {
+                // Algo salió mal
+                console.error("Error al eliminar la publicación");
+            }
+        })
+        .catch(error => console.error('Error al realizar la solicitud fetch:', error));
+}
+

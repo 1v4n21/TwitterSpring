@@ -24,8 +24,10 @@ public class ProbarORM {
             Usuario usuario1 = new Usuario("usuario1", "Nombre1", "Apellido1", "Localidad1", "email1@example.com", "password1", "rol1");
             Usuario usuario2 = new Usuario("usuario2", "Nombre2", "Apellido2", "Localidad2", "email2@example.com", "password2", "rol2");
 
-            Publicacion publicacion1 = new Publicacion("Mensaje de prueba 1", new Date(), usuario1);
-            Publicacion publicacion2 = new Publicacion("Mensaje de prueba 2", new Date(), usuario2);
+            Publicacion publicacion1 = new Publicacion("Mensaje de prueba 1", usuario1);
+            publicacion1.setFecha (new Date ());
+            Publicacion publicacion2 = new Publicacion("Mensaje de prueba 2", usuario2);
+            publicacion2.setFecha (new Date ());
 
             MeGusta meGusta1 = new MeGusta(usuario1, publicacion2);
             MeGusta meGusta2 = new MeGusta(usuario2, publicacion1);

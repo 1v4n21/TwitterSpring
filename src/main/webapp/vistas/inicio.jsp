@@ -31,7 +31,7 @@
     <!-- Cabecera -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="inicio">
                 SocialTweet
                 <img src="static/images/icono.png" alt="Logo de SocialTweet">
             </a>
@@ -44,7 +44,7 @@
                         <a class="nav-link" href="#ajustes">Ajustes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#guardados">Guardados</a>
+                        <a class="nav-link" href="guardados">Guardados</a>
                     </li>
                 </ul>
                 <!-- Campo de búsqueda -->
@@ -63,9 +63,9 @@
     <!-- Posts -->
     <div class="container">
         <c:forEach items="${lasPublicaciones}" var="post">
-            <div class="post">
+            <div class="post" data-id="${post.idPublicacion}">
                 <div class="post-title">@${post.usuario.nombreUsuario}</div>
-                <small class="text-muted">${post.fecha}</small>
+                <small class="text-muted">${post.obtenerTiempoTranscurrido()}</small>
                 <div class="post-content">
                         ${post.mensaje}
                 </div>
@@ -100,9 +100,9 @@
                     <!-- Mostrar íconos de editar y eliminar si el usuario es el creador del post o tiene rol admin -->
                     <c:if test="${post.usuario.idUsuario eq usuarioLogueado.idUsuario or usuarioLogueado.rol eq 'admin'}">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <i class="fa-solid fa-edit"></i>
+                        <a href="publicacion?id=${post.idPublicacion}" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-edit"></i></a>
                         &nbsp;&nbsp;&nbsp;
-                        <i class="fa-solid fa-trash-alt"></i>
+                        <i class="fa-solid fa-trash-alt" onclick="borrarPost(${post.idPublicacion})"></i>
                     </c:if>
                 </div>
             </div>
@@ -111,7 +111,9 @@
 
     <!-- Añadir post -->
     <div class="fixed-logo">
-        <i class="fa-solid fa-square-plus fa-2x"></i>
+        <a href="publicacion">
+            <i class="fa-solid fa-square-plus fa-2x"></i>
+        </a>
     </div>
 
     <br>
