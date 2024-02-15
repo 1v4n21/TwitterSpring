@@ -136,6 +136,6 @@ public class ControladorPublicaciones {
     public ResponseEntity<String> buscarPublicaciones(@RequestParam String username) {
         // Obtener la publicación
         List<Publicacion> publicaciones = servicioP.buscarPublicacionesPorNombreUsuario (username);
-        return ResponseEntity.ok("{\"respuesta\":\"ok\"}");
+        return ResponseEntity.ok("{\"respuesta\":\"okk\"}");
     }
 }
