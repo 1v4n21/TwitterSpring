@@ -48,7 +48,8 @@
                     </li>
                 </ul>
                 <!-- Campo de búsqueda -->
-                <input class="form-control me-2" type="search" placeholder="Buscar Usuario" aria-label="Buscar">
+                <input id="searchInput" class="form-control me-2" type="search" placeholder="Buscar Usuario" aria-label="Buscar">
+
                 <!-- Botón de Logout con color rojo y dinámico -->
                 <a class="btn btn-danger" href="logout">Logout</a>
             </div>

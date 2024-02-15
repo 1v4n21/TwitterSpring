@@ -78,5 +78,8 @@ public class ServicioPublicacion {
         return publicacionesGuardadas;
     }
 
+    public List<Publicacion> buscarPublicacionesPorNombreUsuario(String nombreUsuario) {
+        return publicacionDAO.buscarPublicacionesPorNombreUsuario (nombreUsuario);
+    }
 }
 

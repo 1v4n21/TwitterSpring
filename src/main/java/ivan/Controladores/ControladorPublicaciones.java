@@ -130,4 +130,12 @@ public class ControladorPublicaciones {
             return "publicacion";
         }
     }
+
+    @PostMapping("/buscarPublicaciones")
+    @ResponseBody
+    public ResponseEntity<String> buscarPublicaciones(@RequestParam String username) {
+        // Obtener la publicación
+        List<Publicacion> publicaciones = servicioP.buscarPublicacionesPorNombreUsuario (username);
+        return ResponseEntity.ok("{\"respuesta\":\"ok\"}");
+    }
 }

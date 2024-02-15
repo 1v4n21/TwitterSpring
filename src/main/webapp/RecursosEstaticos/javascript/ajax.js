@@ -83,3 +83,28 @@ function borrarPost(postId) {
         .catch(error => console.error('Error al realizar la solicitud fetch:', error));
 }
 
+//Buscador de mensajes
+document.addEventListener("DOMContentLoaded", function () {
+    var searchInput = document.getElementById("searchInput");
+
+    searchInput.addEventListener("input", function () {
+        var username = searchInput.value;
+
+        // Actualiza la URL para buscar publicaciones por nombre de usuario
+        fetch(`buscarPublicaciones?username=${username}`, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Maneja los resultados de la búsqueda de publicaciones
+                console.log(data);
+                // Aquí puedes actualizar la interfaz de usuario con los resultados
+            })
+            .catch(error => console.error('Error al realizar la solicitud fetch:', error));
+    });
+});
+

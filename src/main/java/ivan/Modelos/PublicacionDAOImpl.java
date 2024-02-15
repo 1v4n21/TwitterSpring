@@ -82,6 +82,15 @@ public class PublicacionDAOImpl implements PublicacionDAO {
             em.close();
         }
     }
+
+    @Override
+    public List<Publicacion> buscarPublicacionesPorNombreUsuario(String nombreUsuario) {
+        EntityManager em = emf.createEntityManager();
+        String hql = "SELECT p FROM Publicacion p WHERE p.usuario.nombreUsuario LIKE :nombreUsuarioPrefix";
+        Query q = em.createQuery(hql);
+        q.setParameter("nombreUsuarioPrefix", nombreUsuario + "%");
+        return q.getResultList();
+    }
 }
 
 

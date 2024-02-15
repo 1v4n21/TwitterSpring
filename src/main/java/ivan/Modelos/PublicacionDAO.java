@@ -11,5 +11,6 @@ public interface PublicacionDAO {
     List<Publicacion> obtenerPublicacionesPorIdUsuario(int idUsuario);
     void actualizarPublicacion(Publicacion publicacion);
     void eliminarPublicacion(int idPublicacion);
+    List<Publicacion> buscarPublicacionesPorNombreUsuario(String nombreUsuario);
 }
 
