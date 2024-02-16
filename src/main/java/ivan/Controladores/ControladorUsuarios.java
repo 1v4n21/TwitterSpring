@@ -98,8 +98,10 @@ public class ControladorUsuarios {
                 usuario.setRol ("normal");
                 servicioU.agregarUsuario (usuario);
 
+                Usuario usuarioNuevo = servicioU.obtenerUsuarioPorNombreUsuario (usuario.getNombreUsuario ());
+
                 // Almacenar el usuario en la sesión y mandamos a inicio
-                session.setAttribute("usuarioLogueado", usuario);
+                session.setAttribute("usuarioLogueado", usuarioNuevo);
                 return "redirect:/inicio";
             }else {
                 // Restablecer el modelo en caso de errores
