@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
 import java.util.List;
@@ -75,6 +76,34 @@ public class ControladorPublicaciones {
         } else {
             // Si la publicación o el usuario no existen, devolver un error 404
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/borrarPostAdmin")
+    public String borrarPostAdmin(@RequestParam int postId, HttpSession session, RedirectAttributes redirectAttributes) {
+        // Obtener la publicación
+        Publicacion publicacion = servicioP.obtenerPublicacionPorId(postId);
+
+        // Verificar si la publicación existe
+        if (publicacion != null) {
+            // Verificar si el usuario tiene permisos para borrar la publicación (no es admin)
+            Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+            if (usuarioLogueado == null || !usuarioLogueado.getRol().equals("admin")) {
+                // No permitir borrar si el usuario no es admin
+                redirectAttributes.addFlashAttribute("error", "No tienes permisos para borrar esta publicación");
+                return "redirect:/inicio"; // Puedes redirigir a donde consideres apropiado
+            }
+
+            // Borrar la publicación
+            servicioP.eliminarPublicacion(publicacion.getIdPublicacion());
+
+            // Redirigir con mensaje de éxito
+            redirectAttributes.addFlashAttribute("exito", "Publicación borrada exitosamente");
+            return "redirect:/admin?accion=publicaciones"; // Puedes redirigir a donde consideres apropiado
+        } else {
+            // Si la publicación no existe, redirigir con mensaje de error
+            redirectAttributes.addFlashAttribute("error", "La publicación no existe");
+            return "redirect:/admin?accion=publicaciones"; // Puedes redirigir a donde consideres apropiado
         }
     }
 

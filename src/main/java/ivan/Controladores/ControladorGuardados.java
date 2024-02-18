@@ -12,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -91,4 +89,28 @@ public class ControladorGuardados {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/borrarGuardadoAdmin")
+    @ResponseBody
+    public ResponseEntity<String> borrarGuardadoAdmin(@RequestParam int guardadoId, HttpSession session, RedirectAttributes redirectAttributes) {
+        // Verificar si el usuario de la sesión es admin
+        Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioSesion == null || !usuarioSesion.getRol().equals("admin")) {
+            // Si el usuario no es admin, redirigir y mostrar un mensaje de error
+            redirectAttributes.addFlashAttribute("error", "Acceso no autorizado");
+            return ResponseEntity.status(403).body("Acceso no autorizado");
+        }
+
+        // Lógica para borrar "Guardado" según el guardadoId
+        Guardado guardado = servicioG.obtenerGuardadoPorId(guardadoId);
+        if (guardado != null) {
+            // Borrar el "Guardado"
+            servicioG.eliminarGuardado(guardado.getIdGuardado ());
+            return ResponseEntity.ok("Guardado borrado exitosamente");
+        } else {
+            // Si no se encuentra el "Guardado", devolver un error
+            return ResponseEntity.status(404).body("Guardado no encontrado");
+        }
+    }
+
 }

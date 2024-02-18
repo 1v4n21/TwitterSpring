@@ -86,8 +86,17 @@
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                             ${usuario.nombreUsuario}
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-warning btn-sm">Editar</button>
-                            <button type="button" class="btn btn-danger btn-sm">Eliminar</button>
+                            <c:choose>
+                                <c:when test="${usuario.rol ne 'admin'}">
+                                    <!-- Mostrar botones solo si el usuario no es admin -->
+                                    <a href="formUsuario?id=${usuario.idUsuario}&accion=editar" class="btn btn-warning btn-sm">Editar</a>
+                                    <a href="borrarUsuarioAdmin?userId=${usuario.idUsuario}" class="btn btn-danger btn-sm">Eliminar</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <!-- Puedes agregar un mensaje de depuración o simplemente dejar vacío si prefieres -->
+                                    <span>Usuario admin, no se pueden realizar cambios</span>
+                                </c:otherwise>
+                            </c:choose>
                         </div>
                     </li>
                 </c:forEach>
@@ -104,8 +113,8 @@
                                 <p>${publicacion.mensaje}</p>
                             </div>
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-warning btn-sm">Editar</button>
-                                <button type="button" class="btn btn-danger btn-sm">Eliminar</button>
+                                <a href="" type="button" class="btn btn-warning btn-sm">Editar</a>
+                                <a href="borrarPostAdmin?postId=${publicacion.idPublicacion}" type="button" class="btn btn-danger btn-sm">Eliminar</a>
                             </div>
                         </div>
                     </li>
@@ -113,16 +122,41 @@
             </ul>
         </c:when>
         <c:when test="${accion eq 'megustas'}">
-            <!-- Lista de "Me Gusta" -->
-            <!-- Agrega aquí la lógica y estructura para mostrar los "Me Gusta" -->
+            <!-- Lista de Me Gusta -->
+            <ul class="list-group">
+                <c:forEach var="megusta" items="${megustas}">
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>${megusta.usuario.nombreUsuario}</strong>
+                                <p>${megusta.publicacion.mensaje}</p>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <a href="borrarMeGustaAdmin?meGustaId${megusta.idMG}" type="button" class="btn btn-danger btn-sm">Eliminar</a>
+                            </div>
+                        </div>
+                    </li>
+                </c:forEach>
+            </ul>
         </c:when>
         <c:when test="${accion eq 'guardados'}">
             <!-- Lista de elementos guardados -->
-            <!-- Agrega aquí la lógica y estructura para mostrar los elementos guardados -->
+            <ul class="list-group">
+                <c:forEach var="guardado" items="${guardados}">
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>${guardado.usuario.nombreUsuario}</strong>
+                                <p>${guardado.publicacion.mensaje}</p>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <a href="borrarGuardadoAdmin?guardadoId=${guardado.idGuardado}" type="button" class="btn btn-danger btn-sm">Eliminar</a>
+                            </div>
+                        </div>
+                    </li>
+                </c:forEach>
+            </ul>
         </c:when>
-        <c:otherwise>
-            <!-- Acción desconocida, manejar según sea necesario -->
-        </c:otherwise>
     </c:choose>
 </div>
 

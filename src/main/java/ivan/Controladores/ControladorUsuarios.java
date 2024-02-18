@@ -1,12 +1,13 @@
 package ivan.Controladores;
 
-import ivan.Constructores.LoginForm;
-import ivan.Constructores.Publicacion;
-import ivan.Constructores.Usuario;
+import ivan.Constructores.*;
+import ivan.Servicios.ServicioGuardado;
+import ivan.Servicios.ServicioMeGusta;
 import ivan.Servicios.ServicioPublicacion;
 import ivan.Servicios.ServicioUsuario;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.FieldError;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -25,6 +27,12 @@ public class ControladorUsuarios {
 
     @Autowired
     private ServicioPublicacion servicioP;
+
+    @Autowired
+    private ServicioMeGusta servicioM;
+
+    @Autowired
+    private ServicioGuardado servicioG;
 
     public ControladorUsuarios (){}
 
@@ -188,7 +196,7 @@ public class ControladorUsuarios {
         }
     }
 
-    @RequestMapping("/admin")
+    @GetMapping("/admin")
     public String admin(@RequestParam(name = "accion", required = false) String accion,
                         Model modelo, HttpSession session) {
 
@@ -217,10 +225,12 @@ public class ControladorUsuarios {
                 modelo.addAttribute("publicaciones", publicaciones);
                 break;
             case "megustas":
-                // Lógica para cargar me gustas
+                List<MeGusta> meGustas = servicioM.obtenerTodosLosMeGustas();
+                modelo.addAttribute("megustas", meGustas);
                 break;
             case "guardados":
-                // Lógica para cargar guardados
+                List<Guardado> guardados = servicioG.obtenerTodosLosGuardados();
+                modelo.addAttribute("guardados", guardados);
                 break;
             default:
                 // Acción no válida, redirigir a la página de administrador con usuarios por defecto
@@ -234,4 +244,74 @@ public class ControladorUsuarios {
         return "admin";
     }
 
+    @GetMapping("/borrarUsuarioAdmin")
+    @ResponseBody
+    public ResponseEntity<String> borrarUsuarioAdmin(@RequestParam int userId, HttpSession session, RedirectAttributes redirectAttributes) {
+        // Verificar si el usuario de la sesión es admin
+        Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioSesion == null || !usuarioSesion.getRol().equals("admin")) {
+            // Si el usuario no es admin, redirigir y mostrar un mensaje de error
+            redirectAttributes.addFlashAttribute("error", "Acceso no autorizado");
+            return ResponseEntity.status(403).body("Acceso no autorizado");
+        }
+
+        // Obtener el usuario
+        Usuario usuario = servicioU.obtenerUsuarioPorId(userId);
+
+        // Verificar si el usuario existe
+        if (usuario != null) {
+            // Borrar el usuario
+            servicioU.eliminarUsuario(usuario.getIdUsuario());
+
+            // Devolver el estado como respuesta
+            return ResponseEntity.ok("Usuario borrado exitosamente");
+        } else {
+            // Si el usuario no existe, devolver un error 404
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/formUsuario")
+    public String mostrarFormularioUsuario(Model modelo,
+                                           @RequestParam(name = "accion") String accion,
+                                           @RequestParam(name = "id", required = false) Integer id,
+                                           HttpSession session) {
+
+        // Verificar si el usuario de la sesión es admin
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null || !usuarioLogueado.getRol().equals("admin")) {
+            // Si no es admin, redirigir a la página de login
+            return "redirect:/login";
+        }
+
+        // Lógica para obtener datos del usuario según la acción (crear o editar)
+        Usuario usuario;
+        if (accion.equals("crear")) {
+            usuario = new Usuario();
+        } else if (accion.equals("editar")) {
+            usuario = servicioU.obtenerUsuarioPorId(id);
+        } else {
+            return "redirect:/admin";
+        }
+
+        modelo.addAttribute("usuario", usuario);
+        modelo.addAttribute("accion", accion);
+
+        // Devolver la vista del formulario
+        return "usuario";
+    }
+
+    @PostMapping("/crearUsuarioAdmin")
+    public String crearUsuario(@ModelAttribute Usuario usuario) {
+        // Lógica para crear un nuevo usuario
+        servicioU.agregarUsuario (usuario);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/editarUsuarioAdmin")
+    public String editarUsuario(@ModelAttribute Usuario usuario) {
+        // Lógica para editar un usuario existente
+        servicioU.actualizarUsuario (usuario);
+        return "redirect:/admin";
+    }
 }
