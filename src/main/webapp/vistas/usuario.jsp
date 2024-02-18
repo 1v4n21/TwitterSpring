@@ -71,7 +71,8 @@
     <h2 class="mb-4">${accion eq 'crear' ? 'Crear' : 'Editar'} Usuario</h2>
 
     <!-- Formulario para crear usuario -->
-    <form:form method="post" modelAttribute="usuario" action="${accion eq 'crear' ? '/crearUsuarioAdmin' : '/editarUsuarioAdmin'}">
+    <form:form method="post" modelAttribute="usuario" action="${accion eq 'crear' ? 'crearUsuarioAdmin' : 'editarUsuarioAdmin'}">
+        <form:input path="idUsuario" type="hidden" name="idUsuario" value="${usuario.idUsuario}" />
 
         <!-- Campos del formulario -->
         <div class="mb-3">
@@ -101,7 +102,7 @@
 
         <div class="mb-3">
             <label for="password" class="form-label">Contraseña</label>
-            <form:password type="password" class="form-control" id="password" path="password" />
+            <form:input type="password" class="form-control" id="password" path="password" />
         </div>
 
         <div class="mb-3">
@@ -112,9 +113,31 @@
             </form:select>
         </div>
 
+        <br>
         <!-- Botón de guardar cambios o crear usuario -->
-        <button type="submit" class="btn btn-primary">Crear Usuario</button>
+        <button type="submit" class="btn btn-primary">${accion eq 'crear' ? 'Crear' : 'Editar'} Usuario</button>
+
+        <br><br>
     </form:form>
+
+    <!-- Limpiar los input en caso de error -->
+    <c:if test="${hasError}">
+        <script>
+            document.getElementById("nombreUsuario").value = "";
+            document.getElementById("password").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("localidad").value = ""
+            document.getElementById("apellidos").value = ""
+            document.getElementById("nombre").value = "";
+        </script>
+    </c:if>
+
+    <!-- mostrar el mensaje de error -->
+    <c:if test="${not empty error}">
+        <div class="alert alert-danger mt-3">
+            <p><c:out value="${error}" /></p>
+        </div>
+    </c:if>
 </div>
 
 <!-- Scripts de Bootstrap -->

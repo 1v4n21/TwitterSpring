@@ -101,6 +101,13 @@
                     </li>
                 </c:forEach>
             </ul>
+
+            <!-- Añadir usuario -->
+            <div class="fixed-logo">
+                <a href="formUsuario?accion=crear">
+                    <i class="fa-solid fa-square-plus fa-2x"></i>
+                </a>
+            </div>
         </c:when>
         <c:when test="${accion eq 'publicaciones'}">
             <!-- Lista de publicaciones -->
@@ -113,13 +120,20 @@
                                 <p>${publicacion.mensaje}</p>
                             </div>
                             <div class="btn-group" role="group">
-                                <a href="" type="button" class="btn btn-warning btn-sm">Editar</a>
+                                <a href="publicacion?id=${publicacion.idPublicacion}" type="button" class="btn btn-warning btn-sm">Editar</a>
                                 <a href="borrarPostAdmin?postId=${publicacion.idPublicacion}" type="button" class="btn btn-danger btn-sm">Eliminar</a>
                             </div>
                         </div>
                     </li>
                 </c:forEach>
             </ul>
+
+            <!-- Añadir post -->
+            <div class="fixed-logo">
+                <a href="publicacion">
+                    <i class="fa-solid fa-square-plus fa-2x"></i>
+                </a>
+            </div>
         </c:when>
         <c:when test="${accion eq 'megustas'}">
             <!-- Lista de Me Gusta -->
@@ -132,7 +146,7 @@
                                 <p>${megusta.publicacion.mensaje}</p>
                             </div>
                             <div class="btn-group" role="group">
-                                <a href="borrarMeGustaAdmin?meGustaId${megusta.idMG}" type="button" class="btn btn-danger btn-sm">Eliminar</a>
+                                <a href="borrarMeGustaAdmin?meGustaId=${megusta.idMG}" type="button" class="btn btn-danger btn-sm">Eliminar</a>
                             </div>
                         </div>
                     </li>

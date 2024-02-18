@@ -91,14 +91,13 @@ public class ControladorGuardados {
     }
 
     @GetMapping("/borrarGuardadoAdmin")
-    @ResponseBody
-    public ResponseEntity<String> borrarGuardadoAdmin(@RequestParam int guardadoId, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String borrarGuardadoAdmin(@RequestParam int guardadoId, HttpSession session, RedirectAttributes redirectAttributes) {
         // Verificar si el usuario de la sesión es admin
         Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuarioSesion == null || !usuarioSesion.getRol().equals("admin")) {
             // Si el usuario no es admin, redirigir y mostrar un mensaje de error
             redirectAttributes.addFlashAttribute("error", "Acceso no autorizado");
-            return ResponseEntity.status(403).body("Acceso no autorizado");
+            return "redirect:/login"; // Puedes redirigir a donde consideres apropiado
         }
 
         // Lógica para borrar "Guardado" según el guardadoId
@@ -106,10 +105,10 @@ public class ControladorGuardados {
         if (guardado != null) {
             // Borrar el "Guardado"
             servicioG.eliminarGuardado(guardado.getIdGuardado ());
-            return ResponseEntity.ok("Guardado borrado exitosamente");
+            return "redirect:/admin?accion=guardados"; // Puedes redirigir a donde consideres apropiado
         } else {
             // Si no se encuentra el "Guardado", devolver un error
-            return ResponseEntity.status(404).body("Guardado no encontrado");
+            return "redirect:/admin?accion=guardados"; // Puedes redirigir a donde consideres apropiado
         }
     }
 

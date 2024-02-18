@@ -245,14 +245,13 @@ public class ControladorUsuarios {
     }
 
     @GetMapping("/borrarUsuarioAdmin")
-    @ResponseBody
-    public ResponseEntity<String> borrarUsuarioAdmin(@RequestParam int userId, HttpSession session, RedirectAttributes redirectAttributes) {
+    public String borrarUsuarioAdmin(@RequestParam int userId, HttpSession session, RedirectAttributes redirectAttributes) {
         // Verificar si el usuario de la sesión es admin
         Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogueado");
         if (usuarioSesion == null || !usuarioSesion.getRol().equals("admin")) {
             // Si el usuario no es admin, redirigir y mostrar un mensaje de error
             redirectAttributes.addFlashAttribute("error", "Acceso no autorizado");
-            return ResponseEntity.status(403).body("Acceso no autorizado");
+            return "redirect:/login"; // Puedes redirigir a donde consideres apropiado
         }
 
         // Obtener el usuario
@@ -264,10 +263,10 @@ public class ControladorUsuarios {
             servicioU.eliminarUsuario(usuario.getIdUsuario());
 
             // Devolver el estado como respuesta
-            return ResponseEntity.ok("Usuario borrado exitosamente");
+            return "redirect:/admin?accion=usuarios"; // Puedes redirigir a donde consideres apropiado
         } else {
             // Si el usuario no existe, devolver un error 404
-            return ResponseEntity.notFound().build();
+            return "redirect:/admin?accion=usuarios"; // Puedes redirigir a donde consideres apropiado
         }
     }
 
@@ -302,16 +301,63 @@ public class ControladorUsuarios {
     }
 
     @PostMapping("/crearUsuarioAdmin")
-    public String crearUsuario(@ModelAttribute Usuario usuario) {
-        // Lógica para crear un nuevo usuario
-        servicioU.agregarUsuario (usuario);
-        return "redirect:/admin";
+    public String crearUsuarioAdmin(@ModelAttribute @Valid Usuario usuario, BindingResult result, Model model) {
+        if (!result.hasErrors()) {
+            // Verificar si ya existe un usuario con este nombre de usuario
+            Usuario usuarioExistente = servicioU.obtenerUsuarioPorNombreUsuario(usuario.getNombreUsuario());
+            if (usuarioExistente == null) {
+                // El nombre de usuario no está en uso, proceder con la creación
+                servicioU.agregarUsuario(usuario);
+                return "redirect:/admin?accion=usuarios";
+            } else {
+                // Nombre de usuario ya en uso, agregar un mensaje de error al modelo
+                model.addAttribute("error", "El nombre de usuario ya está en uso.");
+                model.addAttribute("hasError", true);
+                return "redirect:/formUsuario?accion=crear";
+            }
+        } else {
+            // Obtener el primer error y verificar el campo asociado
+            for (FieldError error : result.getFieldErrors()) {
+                if (error.getField().equals("nombreUsuario") || error.getField().equals("password") || error.getField().equals("email")) {
+                    model.addAttribute("error", error.getDefaultMessage());
+                    model.addAttribute("hasError", true);
+                    break;
+                }
+            }
+
+            // Restablecer el modelo en caso de errores
+            return "redirect:/formUsuario?accion=crear";
+        }
     }
 
     @PostMapping("/editarUsuarioAdmin")
-    public String editarUsuario(@ModelAttribute Usuario usuario) {
-        // Lógica para editar un usuario existente
-        servicioU.actualizarUsuario (usuario);
-        return "redirect:/admin";
+    public String editarUsuarioAdmin(@ModelAttribute @Valid Usuario usuario, BindingResult result, Model model) {
+        if (!result.hasErrors()) {
+            // Verificar si ya existe otro usuario con este nombre de usuario
+            Usuario usuarioExistente = servicioU.obtenerUsuarioPorNombreUsuario(usuario.getNombreUsuario());
+            if (usuarioExistente == null || usuarioExistente.getIdUsuario() == usuario.getIdUsuario()) {
+                // No hay conflicto con el nombre de usuario, proceder con la edición
+                servicioU.actualizarUsuario(usuario);
+                return "redirect:/admin?accion=usuarios";
+            } else {
+                // Nombre de usuario ya en uso por otro usuario, agregar un mensaje de error al modelo
+                model.addAttribute("error", "El nombre de usuario ya está en uso por otro usuario.");
+                model.addAttribute("hasError", true);
+                return "redirect:/formUsuario?accion=editar&id="+usuario.getIdUsuario ();
+            }
+        }else {
+            // Obtener el primer error y verificar el campo asociado
+            for (FieldError error : result.getFieldErrors()) {
+                if (error.getField().equals("nombreUsuario") || error.getField().equals("password") || error.getField().equals("email")) {
+                    model.addAttribute("error", error.getDefaultMessage());
+                    model.addAttribute("hasError", true);
+                    break;
+                }
+            }
+
+            // Restablecer el modelo en caso de errores
+            return "redirect:/formUsuario?accion=editar&id="+usuario.getIdUsuario ();
+        }
     }
+
 }

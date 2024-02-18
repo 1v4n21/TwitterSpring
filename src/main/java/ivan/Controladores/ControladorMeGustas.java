@@ -70,7 +70,6 @@ public class ControladorMeGustas {
     }
 
     @GetMapping("/borrarMeGustaAdmin")
-    @ResponseBody
     public String borrarMeGustaAdmin(@RequestParam int meGustaId, HttpSession session, RedirectAttributes redirectAttributes) {
         // Verificar si el usuario de la sesión es admin
         Usuario usuarioSesion = (Usuario) session.getAttribute("usuarioLogueado");
