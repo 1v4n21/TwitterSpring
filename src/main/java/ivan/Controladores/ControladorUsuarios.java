@@ -158,7 +158,6 @@ public class ControladorUsuarios {
             }else {
                 // Restablecer el modelo en caso de errores
                 model.addAttribute("error", "Ya existe este nombre de usuario");
-                model.addAttribute("hasError", true);
                 return "ajustes";
             }
         } else {
@@ -171,7 +170,6 @@ public class ControladorUsuarios {
             }
 
             // Restablecer el modelo en caso de errores
-            model.addAttribute("hasError", true);
             return "ajustes";
         }
     }

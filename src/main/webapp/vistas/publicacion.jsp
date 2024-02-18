@@ -42,14 +42,14 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#ajustes">Ajustes</a>
+                        <a class="nav-link" href="ajustes?id=${usuarioLogueado.idUsuario}">Ajustes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="guardados">Guardados</a>
                     </li>
                 </ul>
                 <!-- Campo de búsqueda -->
-                <input class="form-control me-2" type="search" placeholder="Buscar Usuario" aria-label="Buscar">
+                <input class="form-control me-2" type="search" placeholder="Buscar Usuario" aria-label="Buscar" disabled>
                 <!-- Botón de Logout con color rojo y dinámico -->
                 <a class="btn btn-danger" href="logout">Logout</a>
             </div>

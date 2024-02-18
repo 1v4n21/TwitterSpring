@@ -42,14 +42,14 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#ajustes">Ajustes</a>
+                    <a class="nav-link" href="ajustes?id=${elUsuario.idUsuario}">Ajustes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="guardados">Guardados</a>
                 </li>
             </ul>
             <!-- Campo de búsqueda -->
-            <input id="searchInput" class="form-control me-2" type="search" placeholder="Buscar Usuario" aria-label="Buscar">
+            <input id="searchInput" class="form-control me-2" type="search" placeholder="Buscar Usuario" aria-label="Buscar" disabled>
 
             <!-- Botón de Logout con color rojo y dinámico -->
             <a class="btn btn-danger" href="logout">Logout</a>
@@ -95,15 +95,6 @@
         <!-- Botón de guardar cambios -->
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
     </form:form>
-
-    <!-- Limpiar los input en caso de error -->
-    <c:if test="${hasError}">
-        <script>
-            document.getElementById("nombreUsuario").value = "";
-            document.getElementById("password").value = "";
-            document.getElementById("email").value = "";
-        </script>
-    </c:if>
 
     <!-- mostrar el mensaje de error -->
     <c:if test="${not empty error}">

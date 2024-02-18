@@ -79,7 +79,10 @@ public class ControladorPublicaciones {
     }
 
     @GetMapping("/publicacion")
-    public String mostrarFormularioPublicacion(Model modelo, @RequestParam(name = "id", required = false) Integer id) {
+    public String mostrarFormularioPublicacion(Model modelo, @RequestParam(name = "id", required = false) Integer id, HttpSession session) {
+
+        modelo.addAttribute("usuarioLogueado", session.getAttribute("usuarioLogueado"));
+
         if (id != null) {
             // Si se proporciona un ID, se trata de una edición, por lo que obtenemos la publicación existente
             Publicacion publicacionExistente = servicioP.obtenerPublicacionPorId(id);
