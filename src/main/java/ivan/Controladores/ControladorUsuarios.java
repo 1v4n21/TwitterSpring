@@ -163,7 +163,7 @@ public class ControladorUsuarios {
         } else {
             // Obtener el primer error y verificar el campo asociado
             for (FieldError error : result.getFieldErrors()) {
-                if (error.getField().equals("nombreUsuario") || error.getField().equals("password") || error.getField().equals("nombre") || error.getField().equals("email")) {
+                if (error.getField().equals("nombreUsuario") || error.getField().equals("password") || error.getField().equals("email")) {
                     model.addAttribute("error", error.getDefaultMessage());
                     break;
                 }
