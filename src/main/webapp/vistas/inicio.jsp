@@ -41,7 +41,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#ajustes">Ajustes</a>
+                        <a class="nav-link" href="ajustes?id=${usuarioLogueado.idUsuario}">Ajustes</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="guardados">Guardados</a>
