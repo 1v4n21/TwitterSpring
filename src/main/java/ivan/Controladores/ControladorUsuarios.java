@@ -1,7 +1,9 @@
 package ivan.Controladores;
 
 import ivan.Constructores.LoginForm;
+import ivan.Constructores.Publicacion;
 import ivan.Constructores.Usuario;
+import ivan.Servicios.ServicioPublicacion;
 import ivan.Servicios.ServicioUsuario;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +15,16 @@ import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.util.List;
+
 @Controller
 public class ControladorUsuarios {
 
     @Autowired
     private ServicioUsuario servicioU;
+
+    @Autowired
+    private ServicioPublicacion servicioP;
 
     public ControladorUsuarios (){}
 
@@ -134,9 +141,16 @@ public class ControladorUsuarios {
     }
 
     @GetMapping("/ajustes")
-    public String mostrarEditar(Model modelo, @RequestParam(name = "id") Integer id) {
-        //Añadimos el modelo de usuario y mandamos a ajustes de nuevo
-        modelo.addAttribute("elUsuario", servicioU.obtenerUsuarioPorId (id));
+    public String mostrarEditar(Model modelo, HttpSession session) {
+        // Verificar si el usuario ha iniciado sesión
+        Usuario usuarioLogueado = (Usuario) session.getAttribute("usuarioLogueado");
+        if (usuarioLogueado == null) {
+            // Redirigir a la página de inicio de sesión si no hay usuario en la sesión
+            return "redirect:/login"; // Ajusta la URL de inicio de sesión según tu configuración
+        }
+
+        // Añadimos el modelo de usuario y mandamos a ajustes de nuevo
+        modelo.addAttribute("elUsuario", servicioU.obtenerUsuarioPorId(usuarioLogueado.getIdUsuario()));
         return "ajustes";
     }
 
@@ -173,4 +187,51 @@ public class ControladorUsuarios {
             return "ajustes";
         }
     }
+
+    @RequestMapping("/admin")
+    public String admin(@RequestParam(name = "accion", required = false) String accion,
+                        Model modelo, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioLogueado");
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        if (!usuario.getRol().equals("admin")) {
+            return "redirect:/inicio";
+        }
+
+        // Acción por defecto (si no se especifica ninguna en la URL)
+        if (accion == null || accion.isEmpty()) {
+            accion = "usuarios";
+        }
+
+        switch (accion) {
+            case "usuarios":
+                List<Usuario> usuarios = servicioU.obtenerTodosLosUsuarios();
+                modelo.addAttribute("usuarios", usuarios);
+                break;
+            case "publicaciones":
+                List<Publicacion> publicaciones = servicioP.obtenerTodasLasPublicaciones();
+                modelo.addAttribute("publicaciones", publicaciones);
+                break;
+            case "megustas":
+                // Lógica para cargar me gustas
+                break;
+            case "guardados":
+                // Lógica para cargar guardados
+                break;
+            default:
+                // Acción no válida, redirigir a la página de administrador con usuarios por defecto
+                return "redirect:/admin?accion=usuarios";
+        }
+
+        modelo.addAttribute("usuarioLogueado", usuario);
+        modelo.addAttribute("accion", accion); // Para usar en la vista y resaltar la pestaña activa
+
+        // Retornar la vista de admin
+        return "admin";
+    }
+
 }
